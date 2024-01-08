@@ -25,7 +25,7 @@ Bullet::Bullet( Vector2 _pos, float _angle )
 	
 	alive = true;
 	hp = 1;
-	max_hp = hp;
+	//max_hp = hp;
 	// dmg = 30;
 	dmg = 1;
 	//hp = 1;

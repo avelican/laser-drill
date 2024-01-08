@@ -13,7 +13,7 @@
 
 Player::Player(Vector2 _pos, Vector2 _vel, unsigned int _hp) 
 	: ShapeGuy(2*14.1421356, _pos, _vel, _hp) { // first arg is radius.. yeah i don't like it 
-	max_hp = _hp;
+	//max_hp = _hp;
 	shape = { 
 		{-10, -10},
 		{0, -5}, 
@@ -26,10 +26,14 @@ Player::Player(Vector2 _pos, Vector2 _vel, unsigned int _hp)
 	//angle = PI;
 	// color = Color{ 28, 128, 255, 255 }; // blue
 	color = Color{ 255, 64, 28, 255 }; // reddish
-
+	pos = {
+		(float)GetScreenWidth()/2,
+		(float)GetScreenHeight()/2
+	};
 
 }
 void Player::update() {
+	if(!alive) return;
 	std::cout << "Player::update();\n";
 	//const int TAU = PI * 2;
 	//const int PI = 3.14159265359f;
@@ -111,6 +115,7 @@ void Player::update() {
 		pos.x = r;
 }
 void Player::draw() {
+	if(!alive) return;
 	std::cout << "Player::draw();\n";
 	// Draw a color-filled triangle (vertex in counter-clockwise order!)
 	// void DrawTriangle(Vector2 v1, Vector2 v2, Vector2 v3, Color color);
@@ -172,19 +177,22 @@ void Player::draw() {
 	//DrawPoly(p3, 6, 4, 0, MAGENTA);
 
 
+
+	// health
+	int max_hp = 100;
 	// void DrawRectangleV(Vector2 position, Vector2 size, Color color);  
-	// int margin = GetScreenWidth() / 8;
-	// int maxWidth = GetScreenWidth() - margin*2;
-	// int width = maxWidth * ((float)hp/(float)max_hp);
-	// Vector2 pos = {
-	// 	(float)margin,
-	// 	(float)GetScreenHeight() - margin
-	// };
-	// Vector2 size = {
-	// 	(float)width,
-	// 	(float)GetScreenWidth() / 32
-	// };
-	// DrawRectangleV(pos, size, color);  
+	int margin = GetScreenWidth() / 8;
+	int maxWidth = GetScreenWidth() - margin*2;
+	int width = maxWidth * ((float)hp/(float)max_hp);
+	Vector2 pos = {
+		(float)margin,
+		(float)GetScreenHeight() - margin
+	};
+	Vector2 size = {
+		(float)width,
+		(float)GetScreenWidth() / 32
+	};
+	DrawRectangleV(pos, size, color);  
 
 	
 }

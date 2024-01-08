@@ -12,7 +12,7 @@ struct  ShapeGuy
 	float r = 0; // radius. Should be set at shape creation time to dist(pos, "most_distant_point").
 	float angle = 0;
 	int hp = 0; // pro tip: do NOT make this unsigned... LOL
-	int max_hp = 0;
+	// int max_hp = 0;
 	Color color = MAGENTA;
 	std::vector<Vector2> shape;
 	//ShapeGuy() {};

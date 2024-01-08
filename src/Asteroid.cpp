@@ -28,13 +28,15 @@ int rand_int(int min, int max) {
 Asteroid::Asteroid()
 	: ShapeGuy(0, Vector2{}, Vector2{}, 0) {
 	alive = false;
+	std::cout << "size of Asteroid: " << sizeof(Asteroid) << "\n";
 }
 
 Asteroid::Asteroid( float _r )
 	: ShapeGuy(_r, Vector2{}, Vector2{}, 0) {
+	std::cout << "size of Asteroid: " << sizeof(Asteroid) << "\n";
 	alive = true;
 	hp = (int)r;
-	max_hp = hp;
+	//max_hp = hp;
 	dmg = (int)r/2;
 	color = Color{ 255, 128, 28, 255 };
 	color = RAYWHITE; // icebergs

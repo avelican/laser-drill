@@ -111,8 +111,12 @@ void ShapeGuy::DrawShape(std::vector<Vector2> shape, Vector2 pos, Color color, f
 }
 
 bool ShapeGuy::Overlaps(ShapeGuy& a, ShapeGuy& b) {
-	assert(a.alive);
-	assert(b.alive);
+	// assert(a.alive);
+	// assert(b.alive);
+	
+	if(!a.alive) return false;
+	if(!b.alive) return false;
+	
 	bool overlapped = false;
 	if (Vector2Distance(a.pos, b.pos) < (a.r + b.r)) {
 		//return true;

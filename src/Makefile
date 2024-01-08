@@ -262,13 +262,9 @@ endif
 #  -D_DEFAULT_SOURCE    use with -std=c99 on Linux and PLATFORM_WEB, required for timespec
 # CFLAGS = -std=c99 -Wall -Wno-missing-braces -Wunused-result -D_DEFAULT_SOURCE
 # NOTE(andai): Visual Studio is set to C++ 2014 by default: -std=c++14
-CFLAGS = -std=c++14 -Wall -Wno-missing-braces -Wunused-result -D_DEFAULT_SOURCE -gsource-map
-# CFLAGS = -std=c++14 -Wall -Wno-missing-braces -Wunused-result -D_DEFAULT_SOURCE
+# CFLAGS = -std=c++14 -Wall -Wno-missing-braces -Wunused-result -D_DEFAULT_SOURCE -gsource-map
+CFLAGS = -std=c++14 -Wall -Wno-missing-braces -Wunused-result -D_DEFAULT_SOURCE
 
-# set stack to 5mb (chrome lowered it to 1mb)
-# ifeq ($(PLATFORM),PLATFORM_WEB)
-#     CFLAGS += -s TOTAL_STACK=5242880
-# endif
 
 ifeq ($(BUILD_MODE),DEBUG)
     CFLAGS += -g -gdwarf-2 -D_DEBUG

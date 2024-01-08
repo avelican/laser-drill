@@ -55,10 +55,11 @@ Music music = { 0 };
 //static const int screenWidth = 800;
 //static const int screenHeight = 450;
 
+bool gameOver = false;
 
 
 Player player{
-    Vector2{200,100},
+    Vector2{(float)SCREEN_WIDTH/2,(float)SCREEN_HEIGHT/2},
     Vector2{0,0},
     100
 };
@@ -73,12 +74,12 @@ Player player{
 // #define ASTEROIDS_INIT_COUNT 5000
 
 #define ASTEROIDS_COUNT 1000
-#define ASTEROIDS_INIT_COUNT 50
+#define ASTEROIDS_INIT_COUNT 20
 
 Asteroid asteroids[ASTEROIDS_COUNT];
 size_t asteroids_idx = 0;
-
-
+//
+//
 #define BULLETS_COUNT 500
 
 Bullet bullets[BULLETS_COUNT];
@@ -86,15 +87,25 @@ size_t bullets_idx = 0;
 
 
 
+
+
+// BANANA
+
 void asteroids_init();
 bool asteroids_spawn(float r);
 void asteroids_spawn_at(Vector2 pos, Vector2 vel, float r);
 void asteroids_update();
 void asteroids_draw();
-
+//
 void bullets_spawn_at(Vector2 pos);
 void bullets_update();
 void bullets_draw();
+
+
+
+
+
+
 
 // Required variables to manage screen transitions (fade-in, fade-out)
 // static float transAlpha = 0.0f;
@@ -146,15 +157,24 @@ int main(void)
     // SetMusicVolume(music, 1.0f);
     //PlayMusicStream(music);
 
-    asteroids_init();
+
+    player.pos = {
+        (float)GetScreenWidth()/2,
+        (float)GetScreenHeight()/2
+    };
+
+    asteroids_init(); // BANANA
+
+
+
 
     // Setup and init first screen
     // currentScreen = LOGO;
     // InitLogoScreen();
     // NOTE: states currently unused
     state = &stateLogo;
-    std::cout << "main() calling state->init();\n";
-    state->init();
+    // std::cout << "main() calling state->init();\n";
+    // state->init();
 
 #if defined(PLATFORM_WEB)
     std::cout << "main() calling emscripten_set_main_loop(UpdateDrawFrame);\n";
@@ -287,8 +307,11 @@ static void update()
     //gameWorld.HandleInput();
     //gameWorld.Update();
 
+    // BANANA
     asteroids_update();
     bullets_update();
+
+
     player.update();
 }
 
@@ -309,15 +332,34 @@ static void draw()
         if (onTransition) drawTransition();
 #endif
         //gameWorld.Draw();
+
+
+        // BANANA
         asteroids_draw();
         bullets_draw();
+
+
+
         player.draw();
         //DrawLineEx(Vector2{ 200,300 }, Vector2{300,400}, 10.f, RED);
+
+        if (gameOver) {
+            // void DrawText(const char *text, int posX, int posY, int fontSize, Color color);  
+            const char* text = "GAME OVER";
+            DrawText(text, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 48, RED);  
+        }
+
         DrawFPS(10, 10); // raylib builtin
     }
     EndDrawing();
 }
 
+
+
+
+
+
+// BANANA
 void asteroids_init() {
     std::cout << "asteroids_init();\n";
     //player.color = LIME;
@@ -329,6 +371,7 @@ void asteroids_init() {
     for (int i = 0; i < ASTEROIDS_INIT_COUNT; i++) {
         asteroids_spawn(-1);
     }
+    std::cout << "END asteroids_init();\n";
 }
 
 
@@ -359,7 +402,7 @@ bool asteroids_spawn(float r = -1) {
         r = 15 + rand_float() * 60; // formerly 1000
         // r = 10 + rand_float() * 30; // formerly 1000
 
-    
+
     // find a dead one to overwrite
     size_t asteroids_idx_orig = asteroids_idx;
     while (asteroids[asteroids_idx].alive) {
@@ -426,6 +469,10 @@ void asteroids_update() {
         asteroids[i].update();
         if (ShapeGuy::Overlaps(player, asteroids[i])) {
 
+            player.takeDamage((int)(asteroids[i].r/2));
+            if (player.hp <= 0) {
+                gameOver = true;
+            }
             ////////////////////////////////////////
             // // on second thought, this was silly
             //if (player.r > asteroids[i].r) { // small asteroid
@@ -461,6 +508,12 @@ void asteroids_draw() {
         asteroids[i].draw();
     }
 }
+
+
+
+
+
+// BANANA 2
 
 void bullets_update() {
     std::cout << "bullets_update();\n";
